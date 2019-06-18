@@ -1,0 +1,46 @@
+#!/bin/bash
+echo 
+echo 
+tput setaf 2 && echo "		██╗   ██╗ █████╗ ██████╗  █████╗ ██╗  ██╗██╗  ██╗ █████╗ ██████╗ " && tput sgr0
+tput setaf 2 && echo "		╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗██║ ██╔╝██║  ██║██╔══██╗██╔══██╗" && tput sgr0
+tput setaf 2 && echo "		 ╚████╔╝ ███████║██████╔╝███████║█████╔╝ ███████║███████║██████╔╝" && tput sgr0
+tput setaf 2 && echo "		  ╚██╔╝  ██╔══██║██╔══██╗██╔══██║██╔═██╗ ██╔══██║██╔══██║██╔══██╗" && tput sgr0
+tput setaf 2 && echo "		   ██║   ██║  ██║██████╔╝██║  ██║██║  ██╗██║  ██║██║  ██║██║  ██║" && tput sgr0
+tput setaf 2 && echo "		   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝" && tput sgr0
+echo 
+echo
+tput setaf 2 && echo "Please select a menu iterm " && tput sgr0
+echo 
+tput setaf 2 && echo  "1) push repository in github \n     usage : vogsphere@vogsphere.1337.ma:intra/2019/activities... | repo .\n"
+echo  "2) Find a file then copy it to current working directory .\n"
+echo  "3) if you want to delete all empty directories in the current directory please run this bash script .\n" && tput sgr0 
+echo
+read -p "--------> " choice 
+if [[ $choice == "1" ]]
+then
+	read -p "Lien  : " rep
+	read -p "Repository : " targe
+	repo=$rep
+	target=$targe
+	DATE=`date +%Y-%m-%d`
+
+	git clone $repo repo
+	cp -r $target/* ./repo
+	cd repo
+	find . -name '.DS_Store' -type f -delete
+	git add -A
+	git status
+	git commit -m "commit @ $DATE"
+	git push
+fi
+
+if [[ $choice == "2" ]]
+then 
+	read -p "      file        :   " file
+	cp `find ~/ -name "$file" 2>/dev/null` $PWD
+fi
+
+if [[ $choice == "3" ]]
+then
+	echo `find . -type d -empty ` && find . -type d -empty -delete
+fi
